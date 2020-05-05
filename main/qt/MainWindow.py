@@ -379,13 +379,13 @@ class DBogUI(object):
         # no response when click database label
         if table_name != self.db_handler.db_name:
             cTool.logger.info("switch to data of table, name: %s" % table_name)
-            self.sqlTextEdit.setText("select * from %s limit 0, %d;" % (table_name, self.page_size))
+            self.sqlTextEdit.setText("select * from %s limit %d;" % (table_name, self.page_size))
             self.do_query()
 
     # when press append record button
     def on_append_record(self, table_name, page_size):
         if self.is_cell_editable():
-            self.sqlTextEdit.setText("select * from %s limit 0, %d;" % (table_name, page_size))
+            self.sqlTextEdit.setText("select * from %s limit %d;" % (table_name, page_size))
             self.do_query()
         else:
             self.warn_action("Table is not allowed to append record now")
@@ -528,8 +528,6 @@ class DBogUI(object):
         # 获取数据
         result_set = self.db_handler.get_all_result(cmd_str)
         # 获取表结构定义
-        # db_filed_lst = self.db_handler.gen_alter(self.db_handler.def_table_name)
-        # self.db_handler.field_name_lst = [db_filed["Field"] for db_filed in db_filed_lst]
         self.db_handler.gen_filed_name_list()
         # withdraw former table data / cast value None to empty string
         self.former_table_data = [[str(item) if item else "" for item in row] for row in result_set]

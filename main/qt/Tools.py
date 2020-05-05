@@ -1,7 +1,9 @@
 import configparser
 import logging
 import os
-
+import time
+import pytz
+import datetime
 import main.qt.Vars as mVars
 
 
@@ -45,7 +47,7 @@ class CTools(object):
         # 记录一条日志
         return logger
 
-    def delBlank(self, srcStr):
+    def delete_blank(self, srcStr):
         return srcStr.strip()
 
     def decorator(print_debug=True, *args):
@@ -65,6 +67,18 @@ class CTools(object):
             return inner2
 
         return inner1
+
+    @staticmethod
+    def utc_to_local(utc_time_str, utc_format='%Y-%m-%dT%H:%M:%S.%fZ'):
+        # local_tz = pytz.timezone('Asia/Shanghai')
+        # local_format = "%Y-%m-%d %H:%M:%S.%f"
+        # utc_dt = datetime.datetime.strptime(utc_time_str, utc_format)
+        # local_dt = utc_dt.replace(tzinfo=pytz.utc).astimezone(local_tz)
+        # time_str = local_dt.strftime(local_format)
+        # return int(time.mktime(time.strptime(time_str, local_format)))
+        utc_date = datetime.datetime.strptime(utc_time_str, utc_format)
+        local_date = utc_date + datetime.timedelta(hours=8)
+        return format(local_date.timestamp(), '.6f')
 
 
 cTool = CTools(None, None)

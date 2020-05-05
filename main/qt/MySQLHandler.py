@@ -4,6 +4,7 @@ import main.qt.Vars as mVars
 from main.qt.SQLParser import SQLParser
 from main.qt.Tools import CTools, cTool
 
+
 # database util
 class MyDBHandler:
     cursor = None  # 句柄
@@ -17,6 +18,7 @@ class MyDBHandler:
         db:打开数据库连接
         cursor:获取游标句柄
     '''
+
     # initailize
     def __init__(self):
         self.sqlParser = SQLParser()
@@ -74,11 +76,6 @@ class MyDBHandler:
         # for field_desc in self.cursor.description:
         for field_desc in self.table_desc_list:
             self.def_field_name_lst.append(field_desc['Field'])
-            # take the first PK field
-            # if field_desc[3] == "PRI":
-            #     self.def_pk_name = field_desc[0]
-            #     self.def_pk_index = tmp_pk_index
-            # tmp_pk_index += 1
         return self.def_field_name_lst
 
     # 获取所有的结果集
@@ -129,8 +126,9 @@ class MyDBHandler:
         # take the first PK field
         tmp_pk_index = 0
         self.def_pk_name = \
-        dict(list(filter(lambda field_desc_dict: self.is_pk(field_desc_dict, tmp_pk_index), self.table_desc_list))[0])[
-            "Field"]
+            dict(list(filter(lambda field_desc_dict: self.is_pk(field_desc_dict, tmp_pk_index), self.table_desc_list))[
+                     0])[
+                "Field"]
         # 定位主键序号
         # self.gen_def_pk_index()
         sql_list = 'show table status where NAME="%s";' % table_name
